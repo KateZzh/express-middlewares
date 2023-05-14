@@ -5,6 +5,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  patchUser,
 } = require("../service/user.service");
 
 const router = express.Router();
@@ -64,4 +65,16 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-module.exports = { router };
+router.patch("/:id", (req, res) => {
+  try {
+    const { id } = req.params;
+    const clientObj = req.body;
+    const data = patchUser(id, clientObj);
+
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+});
+
+module.exports = router;
